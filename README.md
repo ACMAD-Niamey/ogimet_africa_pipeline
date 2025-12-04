@@ -28,28 +28,4 @@ Applies quality controls, merges decoded outputs, organizes files by: Date, Stat
 6. Final Dataset Builder
 Produces the final analytics-ready dataset used for Climate baselines
 
-│
-├── components/
-│   ├── setup/
-│   │   ├── setup.yml
-│   │   └── pipeline_setup.py
-│   ├── synop_ingest/
-│   │   ├── synop_ingest.yml
-│   │   └── synop_incremental.py
-│   ├── metar_ingest/
-│   │   ├── metar_ingest.yml
-│   │   └── metar_incremental.py
-│   ├── decode/
-│   │   ├── decode.yml
-│   │   └── decoder_incremental.py
-│   ├── aggregate/
-│   │   ├── aggregate.yml
-│   │   └── aggregation_qc.py
-│   └── final/
-│       ├── final.yml
-│       └── final_builder.py
-│
-├── azure_pipeline.yml   # Master Azure ML pipeline definition
-└── README.md            # Documentation
-
 Feel free for collaboration, issues, or enhancements
