@@ -1,0 +1,22 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: setup_component
+version: 5
+display_name: Pipeline Setup Component
+type: command
+
+code: .
+environment: azureml:ogimet-env:1
+
+inputs:
+  root_dir:
+    type: string
+    optional: false
+
+outputs:
+  setup_output:
+    type: uri_folder
+
+command: >
+  python pipeline_setup.py
+  --root_dir ${{inputs.root_dir}}
+  --output_dir ${{outputs.setup_output}}

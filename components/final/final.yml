@@ -1,0 +1,22 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: final_component
+version: 4
+display_name: Final Dataset Builder
+type: command
+
+code: .
+
+environment: azureml:ogimet-env:1
+
+inputs:
+  aggregated_input:
+    type: uri_folder
+
+outputs:
+  final_output:
+    type: uri_folder
+
+command: >
+  python final_builder.py
+  --aggregated_dir ${{inputs.aggregated_input}}
+  --output_dir ${{outputs.final_output}}

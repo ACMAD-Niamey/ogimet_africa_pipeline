@@ -1,0 +1,66 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+experiment_name: ogimet_ingestion_pipeline
+description: "Full OGIMET ingestion → decode → QC → final dataset pipeline"
+
+inputs:
+  root_dir: "ogimet_africa_data_v3"
+
+compute: azureml:aifs-computer
+
+jobs:
+
+  setup_job:
+    type: command
+    component: azureml:setup_component:5
+    inputs:
+      root_dir: ${{ parent.inputs.root_dir }}
+    outputs:
+      setup_output:
+        type: uri_folder
+
+  synop_ingestion:
+    type: command
+    component: azureml:synop_ingest_component:4
+    inputs:
+      base_dir: ${{ parent.jobs.setup_job.outputs.setup_output }}
+    outputs:
+      synop_output:
+        type: uri_folder
+
+  metar_ingestion:
+    type: command
+    component: azureml:metar_ingest_component:4
+    inputs:
+      synop_output: ${{ parent.jobs.synop_ingestion.outputs.synop_output }}
+    outputs:
+      metar_output:
+        type: uri_folder
+
+  decode:
+    type: command
+    component: azureml:decode_component:3
+    inputs:
+      synop_input: ${{ parent.jobs.synop_ingestion.outputs.synop_output }}
+      metar_input: ${{ parent.jobs.metar_ingestion.outputs.metar_output }}
+    outputs:
+      decoded_output:
+        type: uri_folder
+
+  aggregate:
+    type: command
+    component: azureml:aggregate_component:3
+    inputs:
+      decoded_input: ${{ parent.jobs.decode.outputs.decoded_output }}
+    outputs:
+      aggregated_output:
+        type: uri_folder
+
+  final:
+    type: command
+    component: azureml:final_component:4
+    inputs:
+      aggregated_input: ${{ parent.jobs.aggregate.outputs.aggregated_output }}
+    outputs:
+      final_output:
+        type: uri_folder

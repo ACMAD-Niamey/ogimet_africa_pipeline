@@ -1,0 +1,23 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: synop_ingest_component
+version: 4
+display_name: SYNOP Incremental Ingestion
+type: command
+
+code: .
+
+environment: azureml:ogimet-env:1
+
+inputs:
+  setup_output:
+    type: uri_folder
+    optional: false
+
+outputs:
+  synop_output:
+    type: uri_folder
+
+command: >
+  python synop_incremental.py
+  --base_dir ${{inputs.setup_output}}/base_dir.txt
+  --output_dir ${{outputs.synop_output}}

@@ -1,0 +1,23 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: metar_ingest_component
+version: 4
+display_name: METAR Incremental Ingestion
+type: command
+
+code: .
+
+environment: azureml:ogimet-env:1
+
+inputs:
+  synop_output:
+    type: uri_folder
+    optional: false
+
+outputs:
+  metar_output:
+    type: uri_folder
+
+command: >
+  python metar_incremental.py
+  --base_dir ${{inputs.synop_output}}
+  --output_dir ${{outputs.metar_output}}

@@ -1,0 +1,22 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: aggregate_component
+version: 3
+display_name: Aggregation & QC
+type: command
+
+code: .
+
+environment: azureml:ogimet-env:1
+
+inputs:
+  decoded_input:
+    type: uri_folder
+
+outputs:
+  aggregated_output:
+    type: uri_folder
+
+command: >
+  python aggregation_qc.py
+  --decoded_dir ${{inputs.decoded_input}}
+  --output_dir ${{outputs.aggregated_output}}
