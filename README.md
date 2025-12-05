@@ -1,4 +1,4 @@
-OGIMET Africa Meteorological Data Ingestion & Processing Pipeline
+OGIMET Africa Meteorological Data Ingestion & Processing Pipeline (Azure)
 
 This repository contains a pipeline for ingesting SYNOP and METAR meteorological observations from the OGIMET service for African stations (WMO Blocks 60–69).
 
